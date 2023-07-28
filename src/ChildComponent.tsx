@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, memo, useState } from 'react';
 
 interface ChildComponentProps {
   id: number;
@@ -6,31 +6,29 @@ interface ChildComponentProps {
   onChange: (id: number, value: string) => void;
 }
 
-const ChildComponent: FC<ChildComponentProps> = ({
-  id,
-  value,
-  onChange,
-}): JSX.Element => {
-  const [renderCount, setRenderCount] = useState(1);
+const ChildComponent: FC<ChildComponentProps> = memo(
+  ({ id, value, onChange }): JSX.Element => {
+    const [renderCount, setRenderCount] = useState(1);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setRenderCount((prevCount) => prevCount + 1);
-    onChange(id, e.target.value);
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setRenderCount((prevCount) => prevCount + 1);
+      onChange(id, e.target.value);
+    };
 
-  return (
-    <div style={childStyles}>
-      <div style={countStyles}>Render Count: {renderCount}</div>
-      <input
-        type="text"
-        value={value}
-        onChange={handleChange}
-        style={inputStyles}
-        placeholder="Insert a value"
-      />
-    </div>
-  );
-};
+    return (
+      <div style={childStyles}>
+        <div style={countStyles}>Render Count: {renderCount}</div>
+        <input
+          type="text"
+          value={value}
+          onChange={handleChange}
+          style={inputStyles}
+          placeholder="Insert a value"
+        />
+      </div>
+    );
+  }
+);
 
 export default ChildComponent;
 

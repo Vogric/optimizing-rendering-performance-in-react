@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import ChildComponent from './ChildComponent';
 
 interface ItemValue {
@@ -15,11 +15,11 @@ const ParentComponent: FC = (): JSX.Element => {
 
   const [itemValues, setItemValues] = useState<ItemValue[]>(initialItemValues);
 
-  const changeValue = (id: number, value: string): void => {
+  const changeValue = useCallback((id: number, value: string): void => {
     setItemValues((prevItemValues) =>
       prevItemValues.map((item) => (item.id === id ? { ...item, value } : item))
     );
-  };
+  }, []);
 
   return (
     <div style={parentStyles}>
